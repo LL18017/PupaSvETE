@@ -1,0 +1,24 @@
+#!/bin/bash
+
+API_TOKEN="114b239f33bc5bd2777ffef853489751a3"
+USER="mjlopez"
+
+JENKINS_URL="http://localhost:8080"
+JOB_NAME="PupaFE"
+JOB_TOKEN="PupaSvFeTrigger"
+JOB_URL="$JENKINS_URL/job/$JOB_NAME/build?token=$JOB_TOKEN"
+
+# Obtener CSRF crumb
+CRUMB=$(curl -s -u $USER:$API_TOKEN "$JENKINS_URL/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,\":\",//crumb)")
+
+# Hacer el POST para disparar el build
+response=$(curl -X POST --silent --write-out "%{http_code}" --output /dev/null \
+  -u "$USER:$API_TOKEN" -H "$CRUMB" "$JOB_URL")
+
+if [ "$response" -eq 201 ]; then
+    echo "✔ Jenkins respondió con éxito (201). Procediendo con el push."
+    exit 0
+else
+    echo "❌ Jenkins no respondió correctamente. Código HTTP: $response"
+    exit 1
+fi
