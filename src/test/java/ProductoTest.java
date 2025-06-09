@@ -49,7 +49,7 @@ public class ProductoTest {
 
     @BeforeAll
     public void inicializar() {
-        frontend = new GenericContainer<>("mi-frontend").withExposedPorts(80).withNetwork(red).withEnv("HOST", "backendapp").withEnv("PORT", "9080").withNetworkAliases("frontendapp").dependsOn(servidorDeAplicaion);
+        frontend = new GenericContainer<>("frontendTpi").withExposedPorts(80).withNetwork(red).withEnv("HOST", "backendapp").withEnv("PORT", "9080").withNetworkAliases("frontendapp").dependsOn(servidorDeAplicaion);
         driver = chrome.getWebDriver();
         frontend.start();
     }
