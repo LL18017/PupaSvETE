@@ -115,8 +115,6 @@ public class ProductoTest {
 
         WebElement titulo = (WebElement) js.executeScript("const root = arguments[0].shadowRoot;" + "const sections = root.querySelectorAll('section');" + "const list = sections[1];" + "return list.querySelector('h1');", articulosContainer);
 
-        System.out.println(cards.get(0).getText());
-        System.out.println(cards.size());
         Assertions.assertEquals("Combos", titulo.getText());
         Assertions.assertEquals(5, cards.size());
 

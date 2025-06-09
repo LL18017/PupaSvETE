@@ -134,4 +134,47 @@ public class PagoTest {
         alert.accept();
         Thread.sleep(5000);
     }
+
+    @Test
+    @Order(2)
+    public void ordenes() throws InterruptedException {
+        System.out.println("test ordenes en localStorage");
+        driver.get("http://frontendapp:80");
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        WebElement navBar = driver.findElement(By.id("nav-bar"));
+
+        WebElement liMenu = (WebElement) js.executeScript("const root = arguments[0].shadowRoot;" + "const items = root.querySelectorAll('#menu-lista li');" + "return Array.from(items).find(el => el.textContent.trim() === 'Pedidos');", navBar);
+        liMenu.click();
+        Thread.sleep(1000);
+        WebElement pedidosCLiente = driver.findElement(By.id("pedidosCLiente"));
+        List<WebElement> cards = (List<WebElement>) js.executeScript(
+                "const root = arguments[0].shadowRoot;" +
+                        "const ordenesContainer = root.querySelector('.ordenes');"+
+                        "return Array.from(ordenesContainer.querySelectorAll('.orden'));", pedidosCLiente);
+        WebElement orden=cards.get(0);
+        Assertions.assertTrue(orden.getText().toLowerCase().contains("número de orden: 1"));
+        WebElement botonVolverPedir = (WebElement) js.executeScript(
+                "const btnContainer = arguments[0].querySelector('.contenedorTotalButton');" +
+                        "return btnContainer ? btnContainer.querySelector('button') : null;",
+                orden);
+        Assertions.assertTrue(botonVolverPedir.getText().contains("volver a pedir"));
+        botonVolverPedir.click();
+        Thread.sleep(1000);
+
+
+        WebElement spanElement = (WebElement) js.executeScript(
+                "let root = arguments[0].shadowRoot;" +
+                        "let listContainer = root.querySelector('.list-container');" +
+                        "let cartLi = listContainer.querySelector('#cartLi');" +
+                        "let botonCart = cartLi.querySelector('#boton-menu-cart');" +
+                        "let cartCardContainer = botonCart.querySelector('.cartCardContainer');" +
+                        // Reemplaza '#contador' por el ID real del span que deseas obtener
+                        "let targetSpan = cartCardContainer.querySelector('span');" +
+                        "return targetSpan;",
+                navBar
+        );
+
+        Assertions.assertNotNull(spanElement);
+        Assertions.assertNotNull(spanElement.getText().contains("1"));
+    }
 }
