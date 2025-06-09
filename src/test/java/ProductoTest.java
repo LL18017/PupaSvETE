@@ -27,7 +27,10 @@ public class ProductoTest {
     public static BrowserWebDriverContainer<?> chrome = new BrowserWebDriverContainer<>("selenium/standalone-chrome:125.0").withCapabilities(new ChromeOptions().addArguments("--ignore-certificate-errors")      // Ignora certificados inválidos
             .addArguments("--disable-web-security")             // Desactiva seguridad CORS (¡solo para pruebas!)
             .addArguments("--allow-insecure-localhost")         // Acepta IPs locales como seguras
-            .addArguments("--allow-running-insecure-content")).withNetwork(red).withRecordingMode(BrowserWebDriverContainer.VncRecordingMode.RECORD_ALL, new File("target"), VncRecordingContainer.VncRecordingFormat.MP4);
+            .addArguments("--allow-running-insecure-content")).withNetwork(red)
+                    .withRecordingMode(BrowserWebDriverContainer.VncRecordingMode.RECORD_ALL,
+                            new File("target"),
+                    VncRecordingContainer.VncRecordingFormat.MP4);
 
     static String dbName = "Tipicos";
     static String dbPassword = "12345";
