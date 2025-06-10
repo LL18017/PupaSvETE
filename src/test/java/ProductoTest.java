@@ -81,7 +81,7 @@ public class ProductoTest {
         String title = driver.getTitle();
         Assertions.assertNotNull(title);
         Assertions.assertFalse(title.isBlank());
-        Assertions.assertTrue(cards.size() == 5);
+        Assertions.assertTrue(cards.size() == 10);
     }
 
     @Test
@@ -119,7 +119,7 @@ public class ProductoTest {
         WebElement titulo = (WebElement) js.executeScript("const root = arguments[0].shadowRoot;" + "const sections = root.querySelectorAll('section');" + "const list = sections[1];" + "return list.querySelector('h1');", articulosContainer);
 
         Assertions.assertEquals("Combos", titulo.getText());
-        Assertions.assertEquals(5, cards.size());
+        Assertions.assertEquals(10, cards.size());
 
     }
 
